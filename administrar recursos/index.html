@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>administracion de recursos</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="barra-superior">
+    <p class="titulo-barra">ADMINISTRACION DE RECURSOS</p>
+  </header>
+
+  <main class="contenedor-principal">
+
+    <h1 class="titulo-pagina">ADMINISTRACION DE RECURSOS</h1>
+
+    <section class="area-contenido">
+
+      <section class="columna-izquierda">
+
+        <section class="seccion-cierre">
+          <h2 class="titulo-seccion">CIERRE DE GESTION</h2>
+          <article class="grupo-botones-cierre">
+            <button type="button" class="boton-accion" onclick="window.location.href = '../index.html'">Cerrar Gestion</button>
+            <button type="button" class="boton-accion" onclick="mostrarVentana()">Cambiar Gestion</button>
+          </article>
+        </section>
+
+        <section class="seccion-herramientas">
+          <article class="grupo-botones-herramientas">
+            <button type="button" class="boton-accion" onclick="mostrarVentana()">Importar/Exportar</button>
+            <button type="button" class="boton-accion" onclick="mostrarVentana()">Indices UFV</button>
+            <button type="button" class="boton-accion" onclick="mostrarVentana()">Seguridad</button>
+            <button type="button" class="boton-accion" onclick="mostrarVentana()">Re-indexar</button>
+            <button type="button" class="boton-accion" onclick="mostrarVentana()">Migrador</button>
+          </article>
+        </section>
+
+      </section>
+
+      <section class="columna-derecha">
+        <article class="campo-anio">
+          <p class="valor-anio">2013</p>
+        </article>
+        <article class="campo-scroll">
+          <div class="scroll-contenido"></div>
+          <div class="barra-scroll">
+            <button class="flecha-scroll flecha-arriba">&#9650;</button>
+            <button class="flecha-scroll flecha-abajo">&#9660;</button>
+          </div>
+        </article>
+      </section>
+
+    </section>
+
+  </main>
+
+  <div class="fondo-modal oculto" id="fondo-modal">
+    <article class="ventana-modal">
+      <header class="barra-modal">
+        <p class="titulo-modal">Microsoft Visual FoxPro</p>
+        <button type="button" class="boton-cerrar-modal" onclick="ocultarVentana()">&#10005;</button>
+      </header>
+      <section class="cuerpo-modal">
+        <figure class="icono-pregunta">?</figure>
+        <p class="mensaje-modal">Es usted el unico usuario del sistema</p>
+      </section>
+      <section class="pie-modal">
+        <button type="button" class="boton-respuesta" onclick="ocultarVentana()">Sí</button>
+        <button type="button" class="boton-respuesta" onclick="ocultarVentana()">No</button>
+      </section>
+    </article>
+  </div>
+
+  <script>
+    function mostrarVentana() {
+      document.getElementById('fondo-modal').classList.remove('oculto');
+    }
+    function ocultarVentana() {
+      document.getElementById('fondo-modal').classList.add('oculto');
+    }
+  </script>
+
+</body>
+</html>
