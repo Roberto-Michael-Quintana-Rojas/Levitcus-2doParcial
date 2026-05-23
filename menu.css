@@ -1,0 +1,232 @@
+@import url("https://fonts.googleapis.com/css2?family=Chango&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
+:root {
+  --navy: #00366c;
+  --blue: #1f85ec;
+  --mid-blue: #396ea4;
+  --light-bg: #f5f6f9;
+  --dark: #121212;
+  --white: #ffffff;
+  --border: #a0b8d0;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family: Tahoma, Arial, sans-serif;
+    background:#c0c0c0;
+    color:#000;
+    height:100vh;
+    overflow:hidden;
+}
+
+
+.win-titlebar{
+    height:30px;
+    background:linear-gradient(to right,#001b5e,#0a4db8);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 8px;
+    font-size:13px;
+    font-weight:bold;
+    border-bottom:1px solid #000;
+}
+
+.win-controls{
+    display:flex;
+    gap:2px;
+}
+
+.win-controls button{
+    width:22px;
+    height:20px;
+    border:1px solid #000;
+    background:#d4d0c8;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.win-controls button:hover{
+    background:#e8e8e8;
+}
+
+.win-controls .cerrar{
+    color:#c00000;
+}
+
+.encabezado-marca {
+  height: 180px;
+  display: flex;
+  background: linear-gradient(
+    135deg,
+    var(--navy) 100%,
+    var(--mid-blue) 50%,
+    var(--blue) 10%
+  );
+  padding: 14px 20px 10px 20px;
+}
+
+.contenido-marca {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.bandera {
+  margin-left: -120px;
+  width: 240px;
+  height: 124px;
+  overflow: hidden;
+  background-image: url("./banderaBol.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.texto-marca {
+  margin-left: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.titulo-marca {
+  font-size: 62px;
+  font-weight: bold;
+  color: var(--white);
+  font-family: "Chango", sans-serif;
+  text-shadow: -5px 8px 5px rgb(49, 49, 49);
+}
+
+.subtitulo-marca {
+  margin-left: 50px;
+  font-size: 26px;
+  color: #c5daf5;
+  font-family: "Indie Flower", sans-serif;
+}
+
+.app-layout{
+    display:flex;
+    height:calc(100vh - 140px);
+}
+
+.sidebar{
+    width:270px;
+    background:#d4d0c8;
+    border-right:2px solid #808080;
+    padding:10px;
+    overflow-y:auto;
+}
+
+.menu-title{
+    background:#003399;
+    color:#fff;
+    text-align:center;
+    font-size:14px;
+    padding:8px;
+    margin-bottom:10px;
+    border:1px solid #000;
+}
+
+.menu-list{
+    list-style:none;
+}
+
+.menu-list li{
+    margin-bottom:6px;
+}
+
+.menu-btn{
+    display:block;
+    width:100%;
+
+    padding:6px 10px;
+
+    text-decoration:none;
+    text-align:center;
+
+    font-family:Tahoma, Arial, sans-serif;
+    font-size:13px;
+    font-weight:bold;
+    color:#1b1b1b;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #eef3f8 0%,
+            #dce7f2 45%,
+            #bfd3e6 55%,
+            #d8e3ee 100%
+        );
+
+    border-top:2px solid #ffffff;
+    border-left:2px solid #ffffff;
+    border-right:2px solid #7f7f7f;
+    border-bottom:2px solid #7f7f7f;
+
+    cursor:pointer;
+    margin-bottom:4px;
+
+    box-shadow:
+        inset 1px 1px 0 #ffffff,
+        inset -1px -1px 0 #a0a0a0;
+}
+
+.menu-btn:hover{
+    background:
+        linear-gradient(
+            to bottom,
+            #f7fbff 0%,
+            #e8f0f8 45%,
+            #cddceb 55%,
+            #e6eef7 100%
+        );
+}
+
+.menu-btn:active{
+    border-top:2px solid #7f7f7f;
+    border-left:2px solid #7f7f7f;
+    border-right:2px solid #ffffff;
+    border-bottom:2px solid #ffffff;
+
+    box-shadow:
+        inset 1px 1px 3px rgba(0,0,0,.25);
+
+    background:
+        linear-gradient(
+            to bottom,
+            #bfd3e6 0%,
+            #dce7f2 100%
+        );
+}
+
+
+.content-area{
+    flex:1;
+    background:#f0f0f0;
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+}
+
+.entity-info{
+    background:#ffffff;
+    border:1px solid #808080;
+    padding:10px;
+    margin-bottom:15px;
+    font-size:14px;
+    line-height:1.8;
+}
+
+
+.hero-image{
+    flex:1;
+    border:2px solid #808080;
+    background:url('./casa-de-la-moneda-1.jpg') center/cover;
+    position:relative;
+    overflow:hidden;
+}
