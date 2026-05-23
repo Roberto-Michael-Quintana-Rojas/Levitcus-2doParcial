@@ -1,0 +1,198 @@
+@import url("https://fonts.googleapis.com/css2?family=Chango&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --navy: #00366c;
+  --blue: #1f85ec;
+  --mid-blue: #396ea4;
+  --light-bg: #f5f6f9;
+  --dark: #121212;
+  --white: #ffffff;
+  --border: #a0b8d0;
+}
+
+body {
+  font-family: Tahoma, Verdana, Geneva, sans-serif;
+  font-size: 13px;
+  background-color: var(--light-bg);
+  color: var(--dark);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.barra-superior {
+  background-color: var(--dark);
+  padding: 15px 8px;
+}
+
+.titulo-barra {
+  color: var(--white);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.encabezado-marca {
+  height: 220px;
+  display: flex;
+  background: linear-gradient(
+    135deg,
+    var(--navy) 100%,
+    var(--mid-blue) 50%,
+    var(--blue) 10%
+  );
+  padding: 14px 20px 10px 20px;
+}
+
+.contenido-marca {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.bandera {
+  margin-left: -120px;
+  width: 240px;
+  height: 124px;
+  overflow: hidden;
+  background-image: url("./banderaBol.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.texto-marca {
+  margin-left: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.titulo-marca {
+  font-size: 62px;
+  font-weight: bold;
+  color: var(--white);
+  font-family: "Chango", sans-serif;
+  text-shadow: -5px 8px 5px rgb(49, 49, 49);
+}
+
+.subtitulo-marca {
+  margin-left: 50px;
+  font-size: 26px;
+  color: #c5daf5;
+  font-family: "Indie Flower", sans-serif;
+}
+
+.envoltorio-principal {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 20px;
+  background-color: var(--light-bg);
+}
+
+.tarjeta-login {
+  background-color: #dce9f7;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 18px 24px 18px 24px;
+  width: 500px;
+  height: 210px;
+}
+
+.titulo-login {
+  font-size: 20px;
+  font-weight: bold;
+  color: var(--navy);
+  border-bottom: 2px solid var(--mid-blue);
+  padding-bottom: 6px;
+  margin-bottom: 16px;
+  font-family: Tahoma, sans-serif;
+}
+
+.tabla-login {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla-login tr td {
+  padding: 5px 4px;
+  vertical-align: middle;
+}
+
+.etiqueta-campo {
+  color: var(--mid-blue);
+  font-size: 15px;
+  white-space: nowrap;
+  padding-right: 10px;
+}
+
+.entrada-campo {
+  width: 200px;
+  padding: 3px 5px;
+  border: 1px solid var(--border);
+  background-color: var(--white);
+  font-size: 15px;
+  font-family: Tahoma, sans-serif;
+  color: var(--dark);
+}
+
+.fila-pie-login {
+  border-top: #cacaca 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding-top: 12px;
+}
+
+.nota-login {
+  font-size: 18px;
+  color: var(--navy);
+}
+
+.boton-aceptar {
+  background-color: var(--light-bg);
+  border: 1px solid var(--border);
+  padding: 3px 14px;
+  font-size: 15px;
+  font-family: Tahoma, sans-serif;
+  color: var(--dark);
+  border-radius: 2px;
+}
+
+.boton-aceptar:hover {
+  background-color: #c8d8ec;
+  border-color: var(--mid-blue);
+}
+
+.pie-pagina {
+  background-color: var(--navy);
+  padding: 10px 16px;
+}
+
+.lista-pie {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.lista-pie li {
+  color: var(--white);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.link {
+    margin-left: 40%;
+  color: var(--white);
+  font-size: 18px;
+  text-decoration: none;
+  margin-top: 8px;
+}
