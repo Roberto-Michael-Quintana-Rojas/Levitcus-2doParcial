@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Entidades — V.S.I.A.F</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section class="encabezado-marca">
+      <article class="contenido-marca">
+        <figure class="bandera"></figure>
+        <section class="texto-marca">
+          <h1 class="titulo-marca">V.S.I.A.F</h1>
+          <p class="subtitulo-marca">Sistema de Activos Fijos</p>
+        </section>
+      </article>
+    </section>
+
+    <main class="window-frame">
+      <div class="window-titlebar">
+        <span>&#9632; Entidades</span>
+      </div>
+
+      <section class="window-body">
+        <h2 class="section-title">GESTIÓN DE ENTIDADES</h2>
+
+        <div class="panel">
+          <div class="table-wrapper">
+            <div class="table-scroll-area">
+              <table class="data-table" id="tablaEntidades">
+                <thead>
+                  <tr>
+                    <th scope="col" style="width: 14%">GESTIÓN</th>
+                    <th scope="col" style="width: 14%">ENTIDAD</th>
+                    <th scope="col" style="width: 54%">DESCRIPCIÓN</th>
+                    <th scope="col" style="width: 18%">SIGLA</th>
+                  </tr>
+                </thead>
+                <tbody id="tableBody">
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <aside class="vscrollbar" aria-hidden="true">
+              <button class="vscroll-btn">&#9650;</button>
+              <div class="vscroll-track"></div>
+              <button class="vscroll-btn">&#9660;</button>
+            </aside>
+          </div>
+          <div class="hscroll-bar" aria-hidden="true">
+            <button class="hscroll-btn">&#9664;</button>
+            <div class="hscroll-track"></div>
+            <button class="hscroll-btn">&#9654;</button>
+          </div>
+        </div>
+
+        <nav class="button-bar" aria-label="Acciones">
+          <button class="btn" id="btnNuevo" onclick="accion('nuevo')">
+            Nuevo
+          </button>
+          <button class="btn" id="btnEditar" onclick="accion('editar')">
+            Editar
+          </button>
+          <button class="btn" id="btnEliminar" onclick="accion('eliminar')">
+            Eliminar
+          </button>
+          <button
+            class="btn"
+            id="btnSeleccionar"
+            onclick="accion('seleccionar')"
+          >
+            Seleccionar
+          </button>
+          <button class="btn" id="btnSalir" onclick="accion('salir')">
+            Salir
+          </button>
+        </nav>
+      </section>
+
+      <footer
+        class="status-bar"
+        id="statusBar"
+        role="status"
+        aria-live="polite"
+      >
+        Listo.
+      </footer>
+    </main>
+
+    <dialog class="modal-window" id="modalForm" aria-labelledby="modalTitle">
+      <header class="modal-titlebar">
+        <span id="modalTitle">Nueva Entidad</span>
+        <button class="close-btn" onclick="cerrarModal()" aria-label="Cerrar">
+          ✕
+        </button>
+      </header>
+
+      <section class="modal-body">
+        <p class="modal-error" id="modalError" role="alert" hidden></p>
+
+        <label class="modal-field">
+          <span>GESTIÓN</span>
+          <input
+            type="number"
+            id="fGestion"
+            placeholder="Ej: 2024"
+            min="2000"
+          />
+        </label>
+        <label class="modal-field">
+          <span>ENTIDAD</span>
+          <input type="number" id="fEntidad" placeholder="Ej: 10" min="1" />
+        </label>
+        <label class="modal-field">
+          <span>DESCRIPCIÓN</span>
+          <input
+            type="text"
+            id="fDescripcion"
+            placeholder="Nombre de la entidad"
+            maxlength="100"
+          />
+        </label>
+        <label class="modal-field">
+          <span>SIGLA</span>
+          <input
+            type="text"
+            id="fSigla"
+            placeholder="Ej: MIN-EDU"
+            maxlength="20"
+          />
+        </label>
+      </section>
+
+      <footer class="modal-footer">
+        <button class="btn" id="btnModalOK" onclick="confirmarModal()">
+          Aceptar
+        </button>
+        <button class="btn" onclick="cerrarModal()">Cancelar</button>
+      </footer>
+    </dialog>
+
+    <script>
+      const BASE_URL = "https://proyectosis414-g-7bitssinexito-sskc.onrender.com";
+      const $ = (id) => document.getElementById(id);
+
+      let seleccionada = null;
+      let modoModal = null;
+
+      // user interface
+      function setStatus(msg, tipo = "") {
+        const sb = $("statusBar");
+        sb.className = "status-bar " + tipo;
+        sb.innerHTML =
+          tipo === "loading" ? `<span class="spinner"></span> ${msg}` : msg;
+      }
+
+      // tabla
+      function renderizarTabla(lista) {
+        const tbody = $("tableBody");
+        tbody.innerHTML = "";
+
+        const filas = Math.max(lista.length, 9);
+
+        for (let i = 0; i < filas; i++) {
+          const d = lista[i] || {};
+
+          const tr = document.createElement("tr");
+
+          tr.innerHTML = `
+  <td>${d.gestion ?? ""}</td>
+  <td>${d.entidad ?? ""}</td>
+  <td>${d.descEnt ?? ""}</td>
+  <td>${d.siglaEnt ?? ""}</td>
+`;
+
+          if (d.entidad != null) {
+            tr.style.cursor = "pointer";
+
+            tr.onclick = () => {
+              document
+                .querySelectorAll("#tableBody tr")
+                .forEach((r) => r.classList.remove("selected"));
+
+              tr.classList.add("selected");
+
+              seleccionada = {
+                id: d.id,
+                gestion: d.gestion,
+                entidad: d.entidad,
+                descEnt: d.descEnt,
+                siglaEnt: d.siglaEnt,
+              };
+
+              console.log("Seleccionada:", seleccionada);
+
+              setStatus(
+                `Seleccionado — ${d.gestion} | ${d.entidad} | ${d.descripcion}`,
+                "ok",
+              );
+            };
+          }
+
+          tbody.appendChild(tr);
+        }
+      }
+
+      // API
+      async function api(method, path, body = null) {
+        const options = {
+          method,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+
+        if (body) {
+          options.body = JSON.stringify(body);
+        }
+
+        const response = await fetch(`${BASE_URL}${path}`, options);
+
+        if (!response.ok) {
+          throw new Error(await response.text());
+        }
+
+        const text = await response.text();
+
+        try {
+          return JSON.parse(text);
+        } catch {
+          return text;
+        }
+      }
+
+      async function cargarLista() {
+        setStatus("Cargando...", "loading");
+
+        try {
+          const data = await api("GET", "/entidades");
+
+          const lista = Array.isArray(data) ? data : data?.content || [];
+
+          renderizarTabla(lista);
+
+          setStatus(`${lista.length} registro(s) cargado(s).`, "ok");
+        } catch (e) {
+          renderizarTabla([]);
+          setStatus(`Error al cargar: ${e.message}`, "error");
+        }
+
+        seleccionada = null;
+      }
+
+      //modal 
+      function abrirModal(modo, datos = {}) {
+        modoModal = modo;
+
+        $("modalTitle").textContent =
+          modo === "nuevo" ? "Nueva Entidad" : "Editar Entidad";
+
+        $("fGestion").value = datos.gestion ?? "";
+        $("fEntidad").value = datos.entidad ?? "";
+        $("fDescripcion").value = datos.descEnt ?? "";
+        $("fSigla").value = datos.siglaEnt ?? "";
+
+        const bloquearClave = modo === "editar";
+
+        $("fGestion").disabled = bloquearClave;
+        $("fEntidad").disabled = bloquearClave;
+
+        $("modalError").hidden = true;
+
+        $("modalForm").showModal();
+      }
+
+      function cerrarModal() {
+        $("modalForm").close();
+      }
+
+      async function confirmarModal() {
+        const body = {
+          gestion: Number($("fGestion").value),
+          entidad: Number($("fEntidad").value),
+          descEnt: $("fDescripcion").value.trim(),
+          siglaEnt: $("fSigla").value.trim(),
+        };
+
+        try {
+          if (modoModal === "nuevo") {
+            await api("POST", "/entidades", body);
+          } else {
+            await api("PUT", `/entidades/${seleccionada.id}`, body);
+          }
+
+          cerrarModal();
+          await cargarLista();
+
+          setStatus("Operación realizada correctamente.", "ok");
+        } catch (e) {
+          const err = $("modalError");
+
+          err.textContent = e.message;
+          err.hidden = false;
+        }
+      }
+
+      // acciones 
+      function accion(tipo) {
+        if (tipo === "nuevo") {
+          abrirModal("nuevo");
+          return;
+        }
+
+        if (tipo === "editar") {
+          if (!seleccionada) {
+            setStatus("Seleccione una fila para editar.", "error");
+            return;
+          }
+
+          abrirModal("editar", seleccionada);
+          return;
+        }
+
+        if (tipo === "eliminar") {
+          if (!confirm(`¿Eliminar entidad ${seleccionada.entidad}?`)) {
+            return;
+          }
+
+          api("DELETE", `/entidades/${seleccionada.id}`)
+            .then(async () => {
+              await cargarLista();
+              setStatus("Entidad eliminada correctamente.", "ok");
+            })
+            .catch((e) =>
+              setStatus(`Error al eliminar: ${e.message}`, "error"),
+            );
+
+          return;
+        }
+
+        if (tipo === "seleccionar") {
+          if (!seleccionada) {
+            setStatus("Seleccione una fila primero.", "error");
+            return;
+          }
+
+          api("GET", `/entidades/${seleccionada.id}`)
+            .then((d) => {
+              setStatus(
+                `Gestión: ${d.gestion} | Entidad: ${d.entidad} | ${d.descEnt} | ${d.siglaEnt}`,
+                "ok",
+              );
+            })
+            .catch((e) => setStatus(`Error: ${e.message}`, "error"));
+
+          return;
+        }
+
+        if (tipo === "salir") {
+          window.location.href = "../index.html";
+        }
+      }
+
+      cargarLista();
+    </script>
+  </body>
+</html>
