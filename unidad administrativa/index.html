@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Unidad Administrativa</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+ <section class="encabezado-marca">
+    <article class="contenido-marca">
+      <figure class="bandera"></figure>
+      <section class="texto-marca">
+        <h1 class="titulo-marca">V.S.I.A.F</h1>
+        <p class="subtitulo-marca">Sistema de Activos Fijos</p>
+      </section>
+    </article>
+  </section>
+
+<div class="window-frame">
+  <div class="window-titlebar">Unidad Administrativa</div>
+  <div class="window-body">
+    <div class="section-title">ADMINISTRACION UNIDAD ADMINISTRATIVA</div>
+ 
+    <div class="panel">
+      <div class="table-wrapper">
+        <div class="table-scroll-area">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th style="width:12%">ENTIDAD</th>
+                <th style="width:18%">UNIDAD</th>
+                <th style="width:48%">DESCRIPCION</th>
+                <th style="width:22%">CIUDAD</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <tr><td></td><td></td><td></td><td></td></tr>
+              <tr><td></td><td></td><td></td><td></td></tr>
+              <tr><td></td><td></td><td></td><td></td></tr>
+              <tr><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="vscrollbar">
+          <div class="vscroll-btn">&#9650;</div>
+          <div class="vscroll-track"></div>
+          <div class="vscroll-btn">&#9660;</div>
+        </div>
+      </div>
+      <div class="hscroll-bar">
+        <div class="hscroll-btn">&#9664;</div>
+        <div class="hscroll-track"></div>
+        <div class="hscroll-btn">&#9654;</div>
+      </div>
+    </div>
+ 
+    <div class="button-bar">
+      <button class="btn" id="btnNuevo"        onclick="accion('nuevo')">Nuevo</button>
+      <button class="btn" id="btnEditar"       onclick="accion('editar')">Editar</button>
+      <button class="btn" id="btnEliminar"     onclick="accion('eliminar')">Eliminar</button>
+      <button class="btn" id="btnSeleccionar"  onclick="accion('seleccionar')">Seleccionar</button>
+      <button class="btn" id="btnSalir"        onclick="accion('salir')">Salir</button>
+    </div>
+  </div>
+  <div class="status-bar" id="statusBar">Listo.</div>
+</div>
+ 
+<div class="modal-overlay" id="modalForm">
+  <div class="modal-window">
+    <div class="modal-titlebar">
+      <span id="modalTitle">Nueva Unidad</span>
+      <div class="close-btn" onclick="cerrarModal()">✕</div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-error" id="modalError"></div>
+ 
+      <div class="modal-field">
+        <label for="fEntidad">ENTIDAD (número)</label>
+        <input type="number" id="fEntidad" placeholder="Ej: 1" min="1"/>
+      </div>
+      <div class="modal-field">
+        <label for="fUnidad">UNIDAD (número)</label>
+        <input type="number" id="fUnidad" placeholder="Ej: 5" min="1"/>
+        <span class="field-hint">Clave única — no se puede cambiar al editar</span>
+      </div>
+      <div class="modal-field">
+        <label for="fDescrip">DESCRIPCIÓN</label>
+        <input type="text" id="fDescrip" placeholder="Descripción de la unidad" maxlength="100"/>
+      </div>
+      <div class="modal-field">
+        <label for="fCiudad">CIUDAD</label>
+        <input type="text" id="fCiudad" placeholder="Ej: La Paz" maxlength="50"/>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" id="btnModalOK" onclick="confirmarModal()">Aceptar</button>
+      <button class="btn" onclick="cerrarModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+    //const BASE_URL = "https://fuerza-g-grupo-1-uy0x.onrender.com";
+    const BASE_URL = "https://proyectosis414-g-7bitssinexito-sskc.onrender.com";
+     
+let seleccionada = null;
+let modoModal    = null;
+ 
+const $ = id => document.getElementById(id);
+ 
+function setStatus(msg, tipo = "") {
+  const sb = $("statusBar");
+  sb.className = "status-bar " + tipo;
+  sb.innerHTML = tipo === "loading" ? `<span class="spinner"></span> ${msg}` : msg;
+}
+ 
+function renderizarTabla(lista) {
+  const tbody = $("tableBody");
+  tbody.innerHTML = "";
+  const filas = Math.max(lista.length, 9);
+  for (let i = 0; i < filas; i++) {
+    const d = lista[i] || {};
+    const tr = document.createElement("tr");
+    tr.innerHTML = `<td>${d.entidad??""}</td><td>${d.unidad??""}</td><td>${d.descripcion??""}</td><td>${d.ciudad??""}</td>`;
+    if (d.unidad != null) {
+      tr.style.cursor = "pointer";
+      tr.onclick = () => {
+        document.querySelectorAll("#tableBody tr").forEach(r => r.classList.remove("selected"));
+        tr.classList.add("selected");
+        seleccionada = d;
+        setStatus(`Seleccionado — Unidad: ${d.unidad} | ${d.descripcion??""} | ${d.ciudad??""}`, "ok");
+      };
+    }
+    tbody.appendChild(tr);
+  }
+}
+ 
+async function api(method, path, body) {
+  const opts = { method, headers: { "Content-Type": "application/json" } };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(BASE_URL + path, opts);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  return res.json().catch(() => null);
+}
+ 
+async function cargarLista() {
+  setStatus("Cargando...", "loading");
+  try {
+    const data  = await api("GET", "/unidadadmin");
+    const lista = Array.isArray(data) ? data : (data.content ?? []);
+    renderizarTabla(lista);
+    setStatus(`${lista.length} registro(s) cargado(s).`, "ok");
+  } catch (e) {
+    setStatus("Error al cargar: " + e.message, "error");
+    renderizarTabla([]);
+  }
+  seleccionada = null;
+}
+ 
+function abrirModal(modo, d = {}) {
+  modoModal = modo;
+  $("modalTitle").textContent = modo === "nuevo" ? "Nueva Unidad" : "Editar Unidad";
+  $("fEntidad").value   = d.entidad ?? "";
+  $("fUnidad").value    = d.unidad  ?? "";
+  $("fDescrip").value   = d.descripcion ?? "";
+  $("fCiudad").value    = d.ciudad  ?? "";
+  const bloq = modo === "editar";
+  $("fEntidad").disabled = bloq;
+  $("fUnidad").disabled  = bloq;
+  $("modalError").style.display = "none";
+  $("modalForm").classList.add("visible");
+}
+ 
+function cerrarModal() {
+  $("modalForm").classList.remove("visible");
+}
+ 
+async function confirmarModal() {
+  const body = {
+    entidad : parseInt($("fEntidad").value) || null,
+    unidad  : parseInt($("fUnidad").value)  || null,
+    descripcion : $("fDescrip").value,
+    ciudad  : $("fCiudad").value
+  };
+  try {
+    if (modoModal === "nuevo") await api("POST", "/unidadadmin", body);
+    else                       await api("PUT",  `/unidadadmin/${body.unidad}`, body);
+    cerrarModal();
+    await cargarLista();
+    setStatus("✔ Operación exitosa.", "ok");
+  } catch (e) {
+    const err = $("modalError");
+    err.textContent = "Error: " + e.message;
+    err.style.display = "block";
+  }
+}
+ 
+function accion(tipo) {
+  if (tipo === "nuevo") {
+    abrirModal("nuevo");
+ 
+  } else if (tipo === "editar") {
+    if (!seleccionada) { setStatus("Seleccione una fila para editar.", "error"); return; }
+    abrirModal("editar", seleccionada);
+ 
+  } else if (tipo === "eliminar") {
+    if (!seleccionada) { setStatus("Seleccione una fila para eliminar.", "error"); return; }
+    if (!confirm(`¿Eliminar unidad N° ${seleccionada.unidad}?`)) return;
+    api("DELETE", `/unidadadmin/${seleccionada.id}`)
+      .then(cargarLista)
+      .catch(e => setStatus("Error al eliminar: " + e.message, "error"));
+ 
+  } else if (tipo === "seleccionar") {
+    if (!seleccionada) { setStatus("Seleccione una fila primero.", "error"); return; }
+    api("GET", `/unidadadmin/${seleccionada.unidad}`)
+      .then(d => setStatus(`✔ Entidad: ${d.entidad} | Unidad: ${d.unidad} | ${d.descrip} | ${d.ciudad}`, "ok"))
+      .catch(e => setStatus("Error: " + e.message, "error"));
+ 
+  } else if (tipo === "salir") {
+    window.location.href = "../index.html"
+  }
+}
+ 
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") cerrarModal();
+  if (e.key === "Enter" && $("modalForm").classList.contains("visible")) confirmarModal();
+});
+ 
+cargarLista();
+</script>
+
+</body>
+</html>
